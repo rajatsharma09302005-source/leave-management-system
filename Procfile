@@ -1,1 +1,1 @@
-web: gunicorn Leave.wsgi:application
+web: gunicorn Leave.wsgi

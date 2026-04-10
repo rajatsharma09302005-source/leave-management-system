@@ -23,10 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-vkl$l0c)k5yx)8%^mu=p0&f6l-c4-pp$a!@r(jc+q(fm16ij@g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# DEBUG = False
 # DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['.onrender.com']
+ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = []
 
 # Application definition
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 # 'DIRS': [r"C:\Users\91914\OneDrive\Desktop\Job projects\Leave management system\Leave\Templates"
@@ -85,22 +87,43 @@ WSGI_APPLICATION = 'Leave.wsgi.application'
 #     }
 # }
 
+# import os
+# from dotenv import load_dotenv
+
+# load_dotenv()
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': os.getenv('MYSQLDATABASE'),
+#         'USER': os.getenv('MYSQLUSER'),
+#         'PASSWORD': os.getenv('MYSQLPASSWORD'),
+#         'HOST': os.getenv('MYSQLHOST'),
+#         'PORT': os.getenv('MYSQLPORT'),
+#     }
+# }
+
+
 import os
-from dotenv import load_dotenv
+import dj_database_url
 
-load_dotenv()
-
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('MYSQLDATABASE'),
-        'USER': os.getenv('MYSQLUSER'),
-        'PASSWORD': os.getenv('MYSQLPASSWORD'),
-        'HOST': os.getenv('MYSQLHOST'),
-        'PORT': os.getenv('MYSQLPORT'),
+if os.environ.get("RAILWAY"):
+    DATABASES = {
+        'default': dj_database_url.config()
     }
-}
+else:
+    # Development (Local → MySQL)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'leavejango',
+            'USER': 'root',
+            'PASSWORD': 'rajat',
+            'HOST': 'localhost',  # Or your database host
+            'PORT': '3306',  # Default MySQL port
+        }
+    }
 
 
 
@@ -152,7 +175,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
