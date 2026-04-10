@@ -1,0 +1,264 @@
+{% extends 'hr/base.html' %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+<h2 class="page-title">Employee Leave Requests</h2>
+
+<div class="table-container">
+
+<table class="modern-table">
+
+<thead>
+<tr>
+<th>#</th>
+<th>Employee</th>
+<th>Start</th>
+<th>End</th>
+<th>Type</th>
+<th>Reason</th>
+<th>Submitted</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for leave in leaves %}
+
+<tr class="row-animate">
+
+<td>{{ forloop.counter }}</td>
+<td>{{ leave.employee.username }}</td>
+<td>{{ leave.start_date }}</td>
+<td>{{ leave.end_date }}</td>
+<td>{{ leave.leave_type }}</td>
+<td>{{ leave.message }}</td>
+<td>{{ leave.submitted_at }}</td>
+
+<td>
+
+{% if leave.status == 'pending' %} <span class="status pending">Pending</span>
+
+{% elif leave.status == 'approved' %} <span class="status approved">Approved</span>
+
+{% else %} <span class="status rejected">Rejected</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if leave.status == 'pending' %}
+
+<form action="{% url 'hr:approve_leave' leave.id %}" method="POST" style="display:inline;">
+{% csrf_token %}
+<button type="submit" class="btn approve-btn">Approve</button>
+</form>
+
+<form action="{% url 'hr:reject_leave' leave.id %}" method="POST" style="display:inline;">
+{% csrf_token %}
+<button type="submit" class="btn reject-btn">Reject</button>
+</form>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+<td colspan="9" class="text-center">No leave requests found.</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<style>
+
+/* Page Title */
+
+.page-title{
+font-weight:700;
+font-size:30px;
+text-align:center;
+margin-bottom:30px;
+background:linear-gradient(45deg,#ff6a00,#ee0979);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+animation:titleGlow 3s infinite alternate;
+}
+
+@keyframes titleGlow{
+from{filter:drop-shadow(0 0 5px rgba(255,106,0,0.4));}
+to{filter:drop-shadow(0 0 15px rgba(238,9,121,0.6));}
+}
+
+
+/* Table Container */
+
+.table-container{
+background:rgba(255,255,255,0.85);
+backdrop-filter:blur(10px);
+padding:25px;
+border-radius:14px;
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+animation:fadeIn 0.8s ease;
+}
+
+
+/* Table */
+
+.modern-table{
+width:100%;
+border-collapse:collapse;
+font-size:15px;
+}
+
+
+/* Header */
+
+.modern-table thead{
+background:linear-gradient(45deg,#00c6ff,#0072ff);
+color:white;
+}
+
+.modern-table th{
+padding:14px;
+text-align:center;
+letter-spacing:0.5px;
+}
+
+
+/* Rows */
+
+.modern-table td{
+padding:12px;
+text-align:center;
+}
+
+
+/* Row Colors */
+
+.modern-table tbody tr:nth-child(odd){
+background:#f6f9ff;
+}
+
+.modern-table tbody tr:nth-child(even){
+background:#eef4ff;
+}
+
+
+/* Row Hover Animation */
+
+.modern-table tbody tr:hover{
+transform:scale(1.02);
+background:#dfe9ff;
+box-shadow:0 8px 20px rgba(0,0,0,0.15);
+transition:0.3s;
+}
+
+
+/* Status Pills */
+
+.status{
+padding:6px 14px;
+border-radius:20px;
+font-size:13px;
+font-weight:600;
+}
+
+.pending{
+background:#fff3cd;
+color:#856404;
+}
+
+.approved{
+background:#d4edda;
+color:#155724;
+}
+
+.rejected{
+background:#f8d7da;
+color:#721c24;
+}
+
+
+/* Buttons */
+
+.btn{
+border:none;
+padding:6px 14px;
+border-radius:8px;
+font-weight:600;
+transition:0.3s;
+cursor:pointer;
+}
+
+
+/* Approve Button */
+
+.approve-btn{
+background:linear-gradient(45deg,#28a745,#00c851);
+color:white;
+}
+
+.approve-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 5px 15px rgba(0,200,81,0.4);
+}
+
+
+/* Reject Button */
+
+.reject-btn{
+background:linear-gradient(45deg,#ff416c,#ff4b2b);
+color:white;
+}
+
+.reject-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 5px 15px rgba(255,75,43,0.4);
+}
+
+
+/* Row Animation */
+
+.row-animate{
+animation:slideUp 0.5s ease;
+}
+
+@keyframes slideUp{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+
+/* Page Fade */
+
+@keyframes fadeIn{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+</style>
+
+{% endblock %}

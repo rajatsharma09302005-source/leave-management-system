@@ -1,0 +1,22 @@
+# environment
+.env
+venv/
+env/
+
+# python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# database
+db.sqlite3
+
+# django stuff
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# static files (optional)
+staticfiles/

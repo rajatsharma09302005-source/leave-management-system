@@ -1,0 +1,118 @@
+{% extends 'employee/base.html' %}
+
+{% block content %}
+<div class="container-fluid bg-warning rounded p-3">
+    <h2 class="mb-4 d-inline-block border-bottom border-danger border-2 pb-2">Apply for Leave</h2>
+    
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            
+            <!-- Employee name is auto-filled from login -->
+            {% comment %} <div class="mb-3">
+            <label for="employee_name" class="form-label">Employee Name</label>
+            <input type="text" class="form-control" id="employee_name"
+            placeholder="Enter Name"
+            name="employee_name"  required>
+        </div> {% endcomment %}
+            
+            <div class="mb-3">
+                <label for="start_date" class="form-label">Start Date</label>
+                <input type="date" class="form-control" id="start_date" name="start_date"
+                       required min="{{ today }}">
+            </div>
+            
+            <div class="mb-3">
+                <label for="end_date" class="form-label">End Date</label>
+                <input type="date" class="form-control" id="end_date" name="end_date"
+                       required min="{{ today }}">
+            </div>
+            
+            <div class="mb-3">
+                <label for="leave_type" class="form-label">Leave Type</label>
+                <select class="form-control" id="leave_type" name="leave_type" required>
+                    <option value="">Select Type</option>
+                    <option value="vacation">Vacation</option>
+                    <option value="sick">Sick Leave</option>
+                    <option value="personal">Personal Leave</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="message" class="form-label">Reason</label>
+                <textarea class="form-control" id="message" name="message"
+                          rows="4" placeholder="Explain Here..." required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary my-4">Submit Request</button>
+        </form>
+    </div>
+</div>
+
+<!-- JS to restrict end date based on start date -->
+<script>
+    const startInput = document.getElementById('start_date');
+    const endInput = document.getElementById('end_date');
+
+    startInput.addEventListener('change', () => {
+        endInput.min = startInput.value;  // end date cannot be before start
+    });
+
+
+    // Set default min for start date to today dynamically
+    const today = new Date().toISOString().split('T')[0];
+    startInput.min = today;
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid bg-warning  rounded p-3" >
+    <h2 class="mb-4 d-inline-block border-bottom border-danger border-2 pb-2">Apply for Leave</h2>
+    <div class="container">
+        <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="employee_name" class="form-label">Employee Name</label>
+            <input type="text" class="form-control" id="employee_name"
+            placeholder="Enter Name"
+            name="employee_name"  required>
+        </div>
+        <div class="mb-3">
+            <label for="start_date" class="form-label">Start Date</label>
+            <input type="date" class="form-control" id="start_date" name="start_date" required min="{{ today }}>
+        </div>
+        <div class="mb-3">
+            <label for="end_date" class="form-label">End Date</label>
+            <input type="date" class="form-control" id="end_date" name="end_date"  required min="{{ today }}>
+        </div>
+        <div class="mb-3">
+            <label for="leave_type" class="form-label">Leave Type</label>
+            <select class="form-control" id="leave_type" name="leave_type" required>
+                <option value="">Select Type</option>
+                <option value="vacation">Vacation</option>
+                <option value="sick">Sick Leave</option>
+                <option value="personal">Personal Leave</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="message" class="form-label">Reason</label>
+            <textarea class="form-control" id="message" name="message" rows="4" placeholder="Explain Here..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary my-4">Submit Request</button>
+    </form>
+    </div>
+</div>
+{% endblock %} {% endcomment %}

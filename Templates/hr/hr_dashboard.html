@@ -1,0 +1,163 @@
+{% extends 'hr/base.html' %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+
+    <!-- Welcome Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 animate__animated animate__fadeInDown">Welcome, {{ request.user.first_name }}!</h1>
+        <p class="lead mt-2 animate__animated animate__fadeInUp">
+            Manage employee leave requests, approvals, and overall leave statistics easily from this dashboard.
+        </p>
+    </div>
+
+    <!-- Dashboard Cards -->
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card dashboard-card shadow p-4 text-white bg-primary animate__animated animate__fadeInLeft" style="border-radius: 15px;">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h5>Total Employees</h5>
+                        <h2>{{ total_employees }}</h2>
+                    </div>
+                    <i class="bi bi-people-fill fs-1"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card dashboard-card shadow p-4 text-white bg-warning animate__animated animate__fadeInUp" style="border-radius: 15px;">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h5>Pending Requests</h5>
+                        <h2>{{ pending_requests }}</h2>
+                    </div>
+                    <i class="bi bi-hourglass-split fs-1"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card dashboard-card shadow p-4 text-white bg-success animate__animated animate__fadeInRight" style="border-radius: 15px;">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h5>Approved Today</h5>
+                        <h2>{{ approved_today }}</h2>
+                    </div>
+                    <i class="bi bi-check-circle fs-1"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+
+        <div class="col-md-6">
+            <div class="card shadow p-3">
+                <h5 class="text-center">Leave Request Status</h5>
+                <canvas id="leaveChart"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow p-3">
+                <h5 class="text-center">Employee Distribution</h5>
+                <canvas id="employeeChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Floating Icons -->
+    <i class="bi bi-file-earmark-text float-icon"></i>
+    <i class="bi bi-calendar2-week float-icon"></i>
+    <i class="bi bi-people-fill float-icon"></i>
+    <i class="bi bi-check2-square float-icon"></i>
+
+</div>
+
+<!-- Custom CSS -->
+<style>
+
+/* Card hover effect */
+.dashboard-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.dashboard-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+
+/* Floating icons animation */
+.float-icon {
+    position: absolute;
+    font-size: 50px;
+    color: rgba(0,0,0,0.05);
+    animation: float 20s linear infinite;
+}
+.float-icon:nth-child(1) { top: 5%; left: 10%; animation-duration: 18s; }
+.float-icon:nth-child(2) { top: 20%; left: 80%; animation-duration: 22s; animation-delay: 2s; }
+.float-icon:nth-child(3) { top: 60%; left: 50%; animation-duration: 20s; animation-delay: 4s; }
+.float-icon:nth-child(4) { top: 80%; left: 90%; animation-duration: 24s; animation-delay: 6s; }
+
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+}
+
+
+
+/* Animations for headings using Animate.css library */
+</style>
+
+<!-- Animate.css CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const leaveChart = new Chart(
+    document.getElementById('leaveChart'),
+    {
+        type: 'doughnut',
+        data: {
+            labels: ['Pending', 'Approved', 'Rejected'],
+            datasets: [{
+                data: [
+                    {{ pending_requests }},
+                    {{ approved_requests }},
+                    {{ rejected_requests }}
+                ],
+                backgroundColor: [
+                    '#ffc107',
+                    '#28a745',
+                    '#dc3545'
+                ]
+            }]
+        }
+    }
+);
+
+
+const employeeChart = new Chart(
+    document.getElementById('employeeChart'),
+    {
+        type: 'bar',
+        data: {
+            labels: ['Employees'],
+            datasets: [{
+                label: 'Total Employees',
+                data: [{{ total_employees }}],
+                backgroundColor: '#007bff'
+            }]
+        }
+    }
+);
+
+</script>
+
+{% endblock %}

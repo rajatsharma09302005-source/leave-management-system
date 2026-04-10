@@ -1,0 +1,92 @@
+{% extends 'employee/base.html' %}
+
+{% block content %}
+<!-- Home Page Content -->
+<div class="container-fluid position-relative">
+
+    <!-- Floating icons -->
+    <i class="bi bi-calendar2-week float-icon"></i>
+    <i class="bi bi-envelope-fill float-icon"></i>
+    <i class="bi bi-people-fill float-icon"></i>
+    <i class="bi bi-file-earmark-text float-icon"></i>
+
+    <!-- Welcome Section -->
+    <div class="welcome-section text-center mt-5">
+        <h1 class="display-4 text-capitalize">Welcome, {{ request.user.username }} !</h1>
+        <p class="lead mt-3 mx-auto" style="max-width: 700px;">
+            Manage your leaves efficiently with our Leave Management System.
+            Apply for leave, track requests, and stay updated on your leave status — all in one place.
+        </p>
+    </div>
+
+    <!-- Icon Cards -->
+    <div class="icon-cards d-flex justify-content-center gap-4 flex-wrap mt-5">
+        <div class="icon-card bg-primary text-white p-4 rounded shadow text-center">
+            <i class="bi bi-pencil-square fs-1 mb-3"></i>
+            <h5>Apply Leave</h5>
+            <p class="small">Submit your leave requests and track approvals.</p>
+        </div>
+        <div class="icon-card bg-success text-white p-4 rounded shadow text-center">
+            <i class="bi bi-table fs-1 mb-3"></i>
+            <h5>Leave Requests</h5>
+            <p class="small">View all your leave requests in one place.</p>
+        </div>
+        <div class="icon-card bg-warning text-white p-4 rounded shadow text-center">
+            <i class="bi bi-people-fill fs-1 mb-3"></i>
+            <h5>Collaborate</h5>
+            <p class="small">Stay connected with HR and managers about leaves.</p>
+        </div>
+        <div class="icon-card bg-info text-white p-4 rounded shadow text-center">
+            <i class="bi bi-graph-up fs-1 mb-3"></i>
+            <h5>Track</h5>
+            <p class="small">Monitor leaves used and remaining for planning ahead.</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- Custom CSS -->
+<style>
+/* Floating icons animation */
+.float-icon {
+    position: absolute;
+    font-size: 40px;
+    color: rgba(255,255,255,0.15);
+    animation: float 12s linear infinite;
+}
+.float-icon:nth-child(1) { top: 10%; left: 10%; animation-duration: 14s; }
+.float-icon:nth-child(2) { top: 60%; left: 80%; animation-duration: 18s; animation-delay: 2s; }
+.float-icon:nth-child(3) { top: 40%; left: 50%; animation-duration: 12s; animation-delay: 4s; }
+.float-icon:nth-child(4) { top: 80%; left: 90%; animation-duration: 20s; animation-delay: 6s; }
+
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+}
+
+/* Welcome section fade in */
+.welcome-section {
+    animation: fadeIn 1.5s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Icon cards hover */
+.icon-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.icon-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+}
+.icon-card i {
+    transition: transform 0.5s;
+}
+.icon-card:hover i {
+    transform: rotate(20deg) scale(1.2);
+}
+</style>
+{% endblock %}

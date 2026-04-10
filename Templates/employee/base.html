@@ -1,0 +1,259 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Leave Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet">
+
+    <style>
+        body {
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #212529;
+            min-height: 100vh;
+            position: fixed;
+        }
+
+        .sidebar h4 {
+            color: #fff;
+            text-align: center;
+            padding: 24px 0;
+            border-bottom: 1px solid #495057;
+            font-size:20px
+        }
+
+
+        .sidebar a {
+            color: #adb5bd;
+            padding: 12px 20px;
+            display: block;
+            text-decoration: none;
+            font-weight: 500;
+            
+        }
+
+        .sidebar a:hover {
+            background-color: #343a40;
+            color: #fff;
+            font-size:20px;
+        }
+
+        /* Main content */
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            margin-top:0px
+        }
+
+
+
+        /* Top heading */
+        .page-title {
+          
+            
+            background-color: #fff;
+            padding: 20px 25px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 6px rgba(21, 19, 19, 0.08);
+            text-align:center;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h4><a href="{% url 'employee:employee_dashboard' %}">Dashboard</a></h4>
+    
+    <a href="{% url 'employee:my_profile' %}">
+        My Profile
+    </a>
+
+    <a href="{% url 'employee:apply_leave' %}">
+        Apply for Leave
+    </a>
+
+    <a href="{% url 'employee:leave_requests' %}">
+        Your Leave Requests
+    </a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content ">
+    
+    <!-- Top Heading -->
+    <div class="page-title">
+        <h2 class="mb-0 mt-0">Welcome to Leave Management System</h2>
+    </div>
+
+    <!-- Page Content -->
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+</body>
+</html> {% endcomment %}
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Leave Management System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+body {
+    background-color: #f8f9fa;
+    margin: 0;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #212529;
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.sidebar-link {
+    padding: 12px 15px;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.sidebar-link:hover {
+    background-color: #495057;
+}
+
+.page-title {
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,.05);
+    margin-bottom: 20px;
+}
+
+/* Main content */
+.main-content {
+    margin-left: 250px; /* same as sidebar width */
+    padding: 30px;
+}
+
+/* Mobile offcanvas */
+@media (max-width: 767px) {
+    .sidebar {
+        display: none; /* hide fixed sidebar on mobile */
+    }
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Mobile Navbar -->
+<nav class="navbar navbar-dark bg-dark d-md-none">
+    <div class="container-fluid">
+        <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+            <i class="bi bi-list"></i>
+        </button>
+        <span class="navbar-brand mb-0">Leave Management</span>
+    </div>
+</nav>
+
+<!-- Desktop Sidebar -->
+<div class="sidebar d-none d-md-block">
+    <h5 class="text-center pt-5 pb-4 text-light border-bottom border-white">Leave Management</h5>
+    <a href="{% url 'employee:employee_dashboard' %}" class="sidebar-link">
+        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+    </a>
+    <a href="{% url 'employee:my_profile' %}" class="sidebar-link">
+        <i class="bi bi-person me-2"></i> My Profile
+    </a>
+    <a href="{% url 'employee:apply_leave' %}" class="sidebar-link">
+        <i class="bi bi-pencil-square me-2"></i> Apply Leave
+    </a>
+    <a href="{% url 'employee:leave_requests' %}" class="sidebar-link">
+        <i class="bi bi-table me-2"></i> Leave Requests
+    </a>
+
+    <form method="post" action="{% url 'employee:logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger w-100 mt-3">
+            <i class="bi bi-box-arrow-right"></i> Logout
+        </button>
+    </form>
+
+
+</div>
+
+<!-- Mobile Sidebar (Offcanvas) -->
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar" style="width: 250px; background-color: #212529; color: white;">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Dashboard</h5>
+        <button type="button" class="btn-close text-light" data-bs-dismiss="offcanvas" style="color: light;"></button>
+    </div>
+    <div class="offcanvas-body">
+        <a href="{% url 'employee:employee_dashboard' %}" class="sidebar-link">
+            <i class="bi bi-speedometer2 me-2"></i> Dashboard
+        </a>
+        <a href="{% url 'employee:my_profile' %}" class="sidebar-link">
+            <i class="bi bi-person me-2"></i> My Profile
+        </a>
+        <a href="{% url 'employee:apply_leave' %}" class="sidebar-link">
+            <i class="bi bi-pencil-square me-2"></i> Apply Leave
+        </a>
+        <a href="{% url 'employee:leave_requests' %}" class="sidebar-link">
+            <i class="bi bi-table me-2"></i> Leave Requests
+        </a>
+        
+        <form method="post" action="{% url 'employee:logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger w-100 mt-3">
+            <i class="bi bi-box-arrow-right"></i> Logout
+        </button>
+    </form>
+        
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="page-title">
+        <h4>Welcome to Leave Management System</h4>
+    </div>
+
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
