@@ -105,39 +105,39 @@ WSGI_APPLICATION = 'Leave.wsgi.application'
 # }
 
 
-import os
-import dj_database_url
+# import os
+# import dj_database_url
 
-if os.environ.get("RAILWAY"):
-    DATABASES = {
-        'default': dj_database_url.config()
-    }
-else:
-    # Development (Local → MySQL)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'leavejango',
-            'USER': 'root',
-            'PASSWORD': 'rajat',
-            'HOST': 'localhost',  # Or your database host
-            'PORT': '3306',  # Default MySQL port
-        }
-    }
-
-
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'leavejango',
-#         'USER': 'root',
-#         'PASSWORD': 'rajat',
-#         'HOST': 'localhost',  # Or your database host
-#         'PORT': '3306',  # Default MySQL port
+# if os.environ.get("RAILWAY"):
+#     DATABASES = {
+#         'default': dj_database_url.config()
 #     }
-# }
+# else:
+#     # Development (Local → MySQL)
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'NAME': 'leavejango',
+#             'USER': 'root',
+#             'PASSWORD': 'rajat',
+#             'HOST': 'localhost',  # Or your database host
+#             'PORT': '3306',  # Default MySQL port
+#         }
+#     }
+
+
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'leavejango',
+        'USER': 'root',
+        'PASSWORD': 'rajat',
+        'HOST': 'localhost',  # Or your database host
+        'PORT': '3306',  # Default MySQL port
+    }
+}
 
 
 # Password validation
