@@ -80,12 +80,12 @@ WSGI_APPLICATION = 'Leave.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # import os
 # from dotenv import load_dotenv
@@ -128,16 +128,16 @@ WSGI_APPLICATION = 'Leave.wsgi.application'
 
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'leavejango',
-        'USER': 'root',
-        'PASSWORD': 'rajat',
-        'HOST': 'localhost',  # Or your database host
-        'PORT': '3306',  # Default MySQL port
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'leavejango',
+#         'USER': 'root',
+#         'PASSWORD': 'rajat',
+#         'HOST': 'localhost',  # Or your database host
+#         'PORT': '3306',  # Default MySQL port
+#     }
+# }
 
 
 # Password validation
@@ -175,7 +175,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_ROOT = 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
